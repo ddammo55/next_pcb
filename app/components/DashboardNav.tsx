@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function DashboardNav() {
     return (
         <div>
-            <h1>hello</h1>
+            <Link href='/dashboard/serial'>시리얼번호생성</Link>
         </div>
     );
 }
