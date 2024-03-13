@@ -31,7 +31,9 @@ model Post {
 }
 
 
-model BoardName {
-  id    String @id
-  name  String
+model Serial {
+  id    Int    @id @default(autoincrement())
+  value String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
