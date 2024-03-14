@@ -46,21 +46,21 @@ model Serial {
   updatedAt DateTime @updatedAt
 }
 
-// model BoardName {
-//   id            Int      @id @default(autoincrement())
-//   boardName     String   @unique
-//   topNum        Int?     // nullable 필드를 나타내기 위해 '?' 사용
-//   botNum        Int?
-//   method        String?
-//   topMethod     String?
-//   botMethod     String?
-//   metalMaskNo   String?
-//   manHour       Int?
-//   dwgNo         String?
-//   note          String?
-//   createdAt     DateTime @default(now()) // 'timestamps()'에 해당
-//   updatedAt     DateTime @updatedAt
-// }
+model BoardName {
+  id            Int      @id @default(autoincrement())
+  boardName     String   @unique
+  topNum        Int?     // nullable 필드를 나타내기 위해 '?' 사용
+  botNum        Int?
+  method        String?
+  topMethod     String?
+  botMethod     String?
+  metalMaskNo   String?
+  manHour       Int?
+  dwgNo         String?
+  note          String?
+  createdAt     DateTime @default(now()) // 'timestamps()'에 해당
+  updatedAt     DateTime @updatedAt
+}
 
 // model Pba {
 //   id          BigInt   @id @default(autoincrement()) @map("id") @db.BigInt

@@ -13,7 +13,7 @@ export default async function Navbar() {
             <div className="container flex items-center justify-between">
                 <Link href="/">
                     <h1 className="font-bold text-3xl">
-                        Marshal<span className="text-primary">Saas</span>
+                        PCB<span className="text-primary">공정관리시스템</span>
                     </h1>
                 </Link>
 
