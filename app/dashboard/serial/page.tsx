@@ -4,60 +4,52 @@ import { Input } from '@/components/ui/input';
 import prisma from '@/app/lib/db';
 import { redirect } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 
-//Swal.fire("SweetAlert2 is working!");
+
+
 
 export default async function SerialPage() {
     
-    const MySwal = withReactContent(Swal)
-   
-
     async function postData(formData: FormData) {
-        "use server"
-        const boardName = formData.get('boardName') as string;
-        const quantity = formData.get('quantity') as string;
-        
-        // 현재 년도의 마지막 두 자리 가져오기
-        const year = new Date().getFullYear().toString().slice(-2);
-        
-        //new Date(now.getTime() + (9 * 60 * 60 * 1000));
-        // 현재 월을 문자로 변환 (1월 = A, 2월 = B, ..., 12월 = L)
-        const month = String.fromCharCode(65 + new Date().getMonth()); // 0 = A, 1 = B, ..., 11 = L
-        
-        // 최근 시리얼 번호 조회
-        const latestSerial = await prisma.serial.findFirst({
-            orderBy: { id: 'desc' },
+    "use server"
+
+    const boardName = formData.get('boardName') as string;
+    const quantity = formData.get('quantity') as string;
+    
+    // 현재 년도의 마지막 두 자리 가져오기
+    const year = new Date().getFullYear().toString().slice(-2);
+    
+    // 현재 월을 문자로 변환 (1월 = A, 2월 = B, ..., 12월 = L)
+    const month = String.fromCharCode(65 + new Date().getMonth()); // 0 = A, 1 = B, ..., 11 = L
+    
+    // 최근 시리얼 번호 조회
+    const latestSerial = await prisma.serial.findFirst({
+        orderBy: { id: 'desc' },
+    });
+
+    let lastNumber = latestSerial ? parseInt(latestSerial.serial.slice(3)) : 0;
+    const parsedQuantity = parseInt(quantity, 10);
+
+    // 새 시리얼 번호들 생성 및 데이터베이스에 저장
+    for (let i = 1; i <= parsedQuantity; i++) {
+        lastNumber++;
+        const newSerialValue = `${year}${month}${('0000' + lastNumber).slice(-4)}`;
+        console.log(newSerialValue);
+        await prisma.serial.create({
+            data: {
+                serial: newSerialValue,
+                boardName: boardName,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
         });
-
-        console.log(latestSerial?.serial);
-        
-        let lastNumber = latestSerial ? parseInt(latestSerial.serial.slice(3)) : 0;
-        const parsedQuantity = parseInt(quantity, 10);
-
-
-        
-        // 새 시리얼 번호들 생성 및 데이터베이스에 저장
-        for (let i = 1; i <= parsedQuantity; i++) {
-            lastNumber++; // 다음 번호로 업데이트
-            const newSerialValue = `${year}${month}${('0000' + lastNumber).slice(-4)}`; // 새 시리얼 번호 생성
-            console.log(newSerialValue);
-            await prisma.serial.create({
-                data: {
-                    serial: newSerialValue,
-                    boardName: boardName,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                },
-            });
-        }
-        
-        MySwal.fire('시리얼번호 생성 완료!', '', 'success')
-        // 처리 완료 후 대시보드로 리디렉션
-        return redirect('/dashboard/serial');
-        
     }
+    
+
+
+    // 처리 완료 후 대시보드로 리디렉션
+    return redirect('/dashboard/serial');
+}
 
         // 최근 시리얼 번호 조회
         const latestSerial = await prisma.serial.findFirst({
