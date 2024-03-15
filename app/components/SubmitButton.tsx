@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Trash } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
-export function SubmitButton(onClick: any) {
+export function SubmitButton(title: string) {
   const { pending } = useFormStatus();
   return (
     <>
@@ -14,7 +14,7 @@ export function SubmitButton(onClick: any) {
         </Button>
       ) : (
         <Button className="w-fit" type="submit">
-          Save Now
+          {title}
         </Button>
       )}
     </>
