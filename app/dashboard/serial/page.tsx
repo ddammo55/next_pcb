@@ -44,13 +44,13 @@ export default async function SerialPage() {
         
 
 
-       console.log(nextSerial); 
+       //console.log(nextSerial); 
         
         // 새 시리얼 번호들 생성 및 데이터베이스에 저장
         for (let i = 1; i <= parsedQuantity; i++) {
             lastNumber++; // 다음 번호로 업데이트
             const newSerialValue = `${year}${month}${('0000' + lastNumber).slice(-4)}`; // 새 시리얼 번호 생성
-            console.log(newSerialValue);
+            //console.log(newSerialValue);
             await prisma.serial.create({
                 data: {
                     serial: newSerialValue,
