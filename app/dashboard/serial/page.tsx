@@ -4,11 +4,15 @@ import { Input } from '@/components/ui/input';
 import prisma from '@/app/lib/db';
 import { redirect } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import LatestSerial from '@/app/components/LatestSerial';
+import { Feed } from '@/app/components/LatestSerial';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
+export type PageProps = {
+	params: { [key: string]: string | string[] | undefined };
+	searchParams?: { [key: string]: string | string[] | undefined };
+};
 
-export default async function SerialPage() {
+export default async function SerialPage(props: PageProps) {
 
             const boardNames = await prisma.boardName.findMany();
             
@@ -119,7 +123,7 @@ export default async function SerialPage() {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <LatestSerial/>
+                                    <Feed {...props}  />
                                 </CardContent>
                             </Card>
                         </div>
